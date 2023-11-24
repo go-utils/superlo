@@ -21,7 +21,7 @@ func Map[T any, R any](collection []T, iteratee func(item T, index int) (R, erro
 	return result, nil
 }
 
-// ParallelMap manipulates a slice and transforms it to a slice of another type.
+// ParallelMap - returns a new collection of mapped values and error
 // `iteratee` is call in parallel. Result keep the same order.
 func ParallelMap[T any, R any](collection []T, iteratee func(item T, index int) (R, error)) ([]R, error) {
 	result := make([]R, len(collection))
