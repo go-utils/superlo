@@ -1,18 +1,16 @@
 package superlo
 
-import "github.com/samber/lo"
-
 // Map - returns a new collection of mapped values and error
-func Map[T any, R any](collection []T, iteratee func(item T, index int) (R, error)) (mappedCollection []R, topErr error) {
-	defer func() {
-		_ = recover()
-	}()
-	return lo.Map(collection, func(item T, index int) R {
-		returnValue, err := iteratee(item, index)
+func Map[T any, R any](collection []T, iteratee func(item T, index int) (R, error)) ([]R, error) {
+	result := make([]R, len(collection))
+
+	for i, item := range collection {
+		returnValue, err := iteratee(item, i)
 		if err != nil {
-			topErr = err
-			panic(nil)
+			return nil, err
 		}
-		return returnValue
-	}), nil
+		result[i] = returnValue
+	}
+
+	return result, nil
 }
